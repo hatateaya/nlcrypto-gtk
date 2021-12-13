@@ -28,31 +28,39 @@ namespace NlCrypto
     {
         public static string Encrypt(string inText, string inPassword, bool usingCrypto, bool usingLongword)
         {
+            if (string.IsNullOrEmpty(inText))
+            {
+                return "";
+            }
             MD5 md5 = MD5.Create();
-            string b64text;
+            string b64Text;
             if (usingCrypto == true)
             // 如果使用加密
             {
                 byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(inPassword));
                 string EncryptionStr = Convert.ToBase64String(encryptionBytes);
                 // 密码进行MD5之后取前十六位用于AES加密
-                b64text = Aes.Encrypt(inText, EncryptionStr.Substring(0, 16));
+                b64Text = Aes.Encrypt(inText, EncryptionStr.Substring(0, 16));
                 // 密码和文本进行AES-ECB加密再进行BASE64
             }
             else
             {
                 // 如果不使用加密
                 byte[] inArray = Encoding.Default.GetBytes(inText);
-                b64text = Convert.ToBase64String(inArray);
+                b64Text = Convert.ToBase64String(inArray);
                 // 直接BASE64输入框文本
             }
             // 加密后的文本进行nlb64混淆
-            inText = Nlb.Encode(b64text, usingLongword);
+            inText = Nlb.Encode(b64Text, usingLongword);
             return inText;
         }
 
         public static string Decrypt(string inText, string passwordText, bool usingCrypto)
         {
+            if (string.IsNullOrEmpty(inText))
+            {
+                return "";
+            }
             MD5 md5 = MD5.Create();
             // 去首尾空及换行
             string trimText = inText.Trim();

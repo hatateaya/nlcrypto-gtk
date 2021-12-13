@@ -26,6 +26,9 @@ namespace NlCryptoGtk
     class MainWindow : Window
     {
         public TextView textView;
+        public CheckButton isUseLongWord;
+        public CheckButton isUseCrypt;
+        public Entry passwordEntry;
         public MainWindow() : base(WindowType.Toplevel)
         {
             // Setup GUI
@@ -48,7 +51,7 @@ namespace NlCryptoGtk
 
             var headerBar = new HeaderBar();
             headerBar.ShowCloseButton = true;
-            headerBar.Title = "NlCryptoGtk(Latin6)";
+            headerBar.Title = "NlCrypto Gtk";
 
             Titlebar = headerBar;
             
@@ -60,20 +63,64 @@ namespace NlCryptoGtk
             // ScrolledWindow
             
             var scrolledWindow = new ScrolledWindow();
-            scrolledWindow.SetSizeRequest(300,100);
+            scrolledWindow.SetSizeRequest(500,100);
             paned.Add(scrolledWindow);
             
             // ButtonBox
 
             var buttonBox = new ButtonBox(Orientation.Vertical);
-            buttonBox.MarginBottom = 96;
-            buttonBox.LayoutStyle = ButtonBoxStyle.Expand;
+            
+            buttonBox.MarginTop = 24;
+            buttonBox.MarginBottom = 48;
+            buttonBox.LayoutStyle = ButtonBoxStyle.Start;
+            
             var buttonEncrypt = new Button();
-            buttonEncrypt.Margin = 16;
-            var buttonDecrypt = new Button();
-            buttonDecrypt.Margin = 16;
+            buttonEncrypt.Label = "Encrypt";
+            buttonEncrypt.Margin = 10;
             buttonBox.Add(buttonEncrypt);
+            
+            var buttonDecrypt = new Button();
+            buttonDecrypt.Margin = 10;
+            buttonDecrypt.Label = "Decrypt";
             buttonBox.Add(buttonDecrypt);
+            
+            var buttonClear = new Button();
+            buttonClear.Margin = 10;
+            buttonClear.Label = "Clear";
+            buttonBox.Add(buttonClear);
+            
+            isUseLongWord = new CheckButton();
+            isUseLongWord.Label = "Using Long Word";
+            isUseLongWord.Active = true;
+            isUseLongWord.MarginLeft = 10;
+            buttonBox.Add(isUseLongWord);
+            
+            isUseCrypt = new CheckButton();
+            isUseCrypt.Label = "Using Crypt";
+            isUseCrypt.Active = true;
+            isUseCrypt.MarginLeft = 10;
+            buttonBox.Add(isUseCrypt);
+            
+                                                                                    
+            var labelPassword = new Label();                            
+            labelPassword.Text = "Cryption Password:";
+            labelPassword.Margin = 0;
+            buttonBox.Add(labelPassword);                               
+                                                                        
+            passwordEntry = new Entry();                                
+            passwordEntry.Margin = 10;                                  
+            buttonBox.Add(passwordEntry);                               
+
+            var label = new Label();
+            label.Text = @"
+NlCrypt GTK Version 
+(Latin6) by MuHua.
+Check About to 
+see more.
+Version: 2.6.0.0
+";
+            buttonBox.Add(label);
+            
             paned.Add(buttonBox);
             
             // TextView
@@ -81,23 +128,31 @@ namespace NlCryptoGtk
             textView = new TextView();
             textView.Editable = true;
             textView.Buffer.Text = "Please Input text";
+            textView.WrapMode = WrapMode.WordChar;
             scrolledWindow.Add(textView);
 
-            // End
-
+            // Events
+            
+            buttonClear.Clicked += (sender, e) => ButtonClearClicked();
             buttonEncrypt.Clicked += (sender, e) => ButtonEncryptClicked();
             buttonDecrypt.Clicked += (sender, e) => ButtonDecryptClicked();
             Destroyed += (sender, e) => Application.Quit();
+            
+        }
+
+        private void ButtonClearClicked()
+        {
+            textView.Buffer.Text = "";
         }
 
         private void ButtonEncryptClicked()
         {
-            textView.Buffer.Text = Nlc.Encrypt(textView.Buffer.Text,"",true,true);
+            textView.Buffer.Text = Nlc.Encrypt(textView.Buffer.Text,passwordEntry.Text,isUseCrypt.Active,isUseLongWord.Active);
         }
         
         private void ButtonDecryptClicked()
         {
-            textView.Buffer.Text = Nlc.Decrypt(textView.Buffer.Text,"",true);
+            textView.Buffer.Text = Nlc.Decrypt(textView.Buffer.Text,passwordEntry.Text,isUseCrypt.Active);
         }
 
         private static void AboutActivated(object sender, EventArgs e)

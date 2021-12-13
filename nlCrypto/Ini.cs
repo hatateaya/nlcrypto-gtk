@@ -19,13 +19,15 @@
 
 // nlCrypto遗留问题
 
+using System.IO;
+
 namespace NlCrypto
 {
     public static class Ini
     {
         static public string ReadValue(string a,string b){
             IniFile iniFile = new IniFile();
-            iniFile.Load("/home/rhine/code.ini");
+            iniFile.Load(Path.GetTempPath()+"nlcryptocode.ini");
             return iniFile[a][b].GetString();
         }
     }
