@@ -24,6 +24,11 @@ namespace NlCryptoGtk
 {
     static class Program
     {
+        /*
+         * Todo: 多平台发布
+         * Todo: 边角修改
+         * 
+         */
         public static Application App;
         public static Window Win;
         [STAThread]

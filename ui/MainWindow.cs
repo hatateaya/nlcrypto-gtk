@@ -117,7 +117,7 @@ NlCrypt GTK Version
 (Latin6) by MuHua.
 Check About to 
 see more.
-Version: 2.6.0.0
+Version: 2.6.0.1
 ";
             buttonBox.Add(label);
             

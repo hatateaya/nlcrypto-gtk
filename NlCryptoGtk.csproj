@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
-        <LangVersion>10</LangVersion>
+        <LangVersion>9</LangVersion>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <StartupObject>NlCryptoGtk.Program</StartupObject>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,8 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="GtkSharp" Version="3.24.24.*" />
-        <PackageReference Include="GtkSourceSharp" Version="3.24.24.34" />
+      <PackageReference Include="GtkSharp" Version="3.24.24.34" />
     </ItemGroup>
 
 </Project>
