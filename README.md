@@ -4,4 +4,4 @@
 
 您需要安装 .NET 6.0 及以上版本与 GTK3 来运行本程序。
 
-[!截图](screenshot.png)
+![截图](screenshot.png)
